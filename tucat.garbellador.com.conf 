@@ -1,0 +1,30 @@
+#
+# Apache configuration for the host server 
+# ----------------------------------------
+
+<VirtualHost *:80>
+    ServerAdmin mymail@myserver.com
+    ServerName tucat.garbellador.com
+    ProxyRequests Off
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+
+    LogLevel warn
+
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    <Location />
+      Order allow,deny
+      Allow from all
+    
+      ProxyPass / http://127.0.0.1:8000/
+      ProxyPassReverse / http://127.0.0.1:8000/
+    </Location>
+
+</VirtualHost>
+
