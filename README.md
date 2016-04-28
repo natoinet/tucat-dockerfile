@@ -63,6 +63,6 @@ Removing all docker instances
 
 **Errors**
 
-2016-04-28 07:51:03,182 INFO spawnerr: can't find command '/home/antoinet/.virtualenvs/tucat/bin/gunicorn'
-2016-04-28 07:51:03,194 INFO spawnerr: can't find command '/home/antoinet/.virtualenvs/tucat/bin/python'
+- 2016-04-28 07:51:03,182 INFO spawnerr: can't find command '/home/antoinet/.virtualenvs/tucat/bin/gunicorn'
+- 2016-04-28 07:51:03,194 INFO spawnerr: can't find command '/home/antoinet/.virtualenvs/tucat/bin/python'
 
