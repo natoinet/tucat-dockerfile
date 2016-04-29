@@ -46,7 +46,8 @@ RUN echo "Install Tucat Application " && \
     ln -s /etc/nginx/sites-available/${SERVERNAME} /etc/nginx/sites-enabled/ && \
     mkdir -p ${APPHOME} && \
     cp -r /src/tucat/ ${APPHOME}/tucat && \
-    mkdir -p /home/antoinet/src/tucat/log 
+    mkdir -p /home/antoinet/src/tucat/log && \
+    echo "daemon off;" >> /etc/nginx/nginx.conf
    
 # Supervisor configuration 
 RUN echo "Supervidor Configuration " && \

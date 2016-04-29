@@ -22,7 +22,7 @@ First Draft for this dockerfile. It is necessary to establish the data persisten
 Or only with the essential ports to use the application 
 
 ```
-  sudo docker run -d -p 8000:8000 -p 2020:22  natoinet/tucat
+  sudo docker run -d -p 8000:8000 -p 8080:80 -p 2020:22  natoinet/tucat
 ```  
 
 **Try to check the application**

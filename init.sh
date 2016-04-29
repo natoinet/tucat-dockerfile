@@ -1,6 +1,6 @@
 #!/bin/bash
 
-su -l antoinet -c '/usr/local/bin/virtualenvwrapper.sh --python=/usr/bin/python3 -r /src/tucat/requirements.txt tucat' 
+#su -l antoinet -c '/usr/local/bin/virtualenvwrapper.sh --python=/usr/bin/python3 -r /src/tucat/requirements.txt tucat' 
 
 ROOTPASS=$(pwgen -s 12 1)
 echo 'root:${ROOTPASS}' | chpasswd
@@ -37,6 +37,14 @@ ulimit -n 1024
 mkdir -p /var/lib/rabbitmq/data
 chown -R rabbitmq:rabbitmq /var/lib/rabbitmq/data
 mkdir -p /var/log/rabbitmq/
+
+su -l antoinet -c '#!/bin/bash > /home/antoinet/init.sh'
+su -l antoinet -c 'echo "export WORKON_HOME=$HOME/.virtualenvs" >> /home/antoinet/init.sh' 
+su -l antoinet -c 'echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/antoinet/init.sh' 
+su -l antoinet -c 'echo "workon && mkvirtualenv temp && workon && workon temp " >> /home/antoinet/init.sh'
+su -l antoinet -c 'echo "mkvirtualenv --python=/usr/bin/python3 -r ~/src/tucat/requirements.txt tucat" >> /home/antoinet/init.sh' 
+su -l antoinet -c 'chmod +x /home/antoinet/init.sh'
+su -l antoinet -c '/home/antoinet/init.sh'
 
 echo "=>"
 echo "=> Done!"
