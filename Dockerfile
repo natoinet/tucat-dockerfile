@@ -21,7 +21,9 @@ RUN echo "Install base system" && \
     easy_install pip && \
     pip install virtualenv && \
     pip install virtualenvwrapper && \
-    pip install django     
+    pip install django && \
+    mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp && \
+    chown postgres.postgres /var/run/postgresql/9.4-main.pg_stat_tmp -R 
 
 # Install MongoDB database 
 RUN echo "Install MongoDB database" && \
@@ -39,6 +41,7 @@ RUN echo "Install RabbitMQ queue service" && \
 
 # Install Tucat Application 
 ADD ./nginx.conf /etc/nginx/sites-available/${SERVERNAME}
+ADD ./requirements.txt /requirements.txt 
 RUN echo "Install Tucat Application " && \
     useradd -ms /bin/bash ${APPUSER} && \
     git clone https://github.com/natoinet/tucat /src/tucat && \
