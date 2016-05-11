@@ -16,19 +16,19 @@ First Draft for this dockerfile. It is necessary to establish the data persisten
 ###Run the container
 
 ```
-  sudo docker run -d -p 8000:8000 -p 8080:80 -p 2020:22 -p 5432:5432 -p 27017:27017 natoinet/tucat
+  sudo docker run -d -p 8000:8000 -p 8080:80 -p 2020:22 -p 5432:5432 -p 27017:27017 --name tucat natoinet/tucat
 ```  
 
 Or only with the essential ports to use the application 
 
 ```
-  sudo docker run -d -p 8000:8000 -p 8080:80 -p 2020:22  natoinet/tucat
+  sudo docker run -d -p 8000:8000 -p 8080:80 -p 2020:22 --name tucat natoinet/tucat
 ```  
 
 **Try to check the application**
 
 ```
-  sudo docker exec -it [instancename] bash 
+  sudo docker exec -it tucat bash 
 ```  
 
 or mounting volumes 

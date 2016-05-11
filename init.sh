@@ -44,7 +44,6 @@ rm -f /requirements.txt
 su -l antoinet -c '#!/bin/bash > /home/antoinet/init.sh'
 su -l antoinet -c 'echo "export WORKON_HOME=$HOME/.virtualenvs" >> /home/antoinet/init.sh' 
 su -l antoinet -c 'echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/antoinet/init.sh' 
-#su -l antoinet -c 'echo "workon && mkvirtualenv temp && workon && workon temp " >> /home/antoinet/init.sh'
 su -l antoinet -c 'echo "mkvirtualenv --python=/usr/bin/python3 -r /home/antoinet/requirements.txt tucat" >> /home/antoinet/init.sh' 
 su -l antoinet -c 'chmod +x /home/antoinet/init.sh'
 su -l antoinet -c '/home/antoinet/init.sh'
