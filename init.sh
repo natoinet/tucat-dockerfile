@@ -12,8 +12,8 @@ echo "DEBUG=on " >> ${APPHOME}/tucat/.env
 echo "DJANGO_SETTINGS_MODULE=config.settings.production" >> ${APPHOME}/tucat/.env
 echo "DATABASE_URL=postgres://garbellador:${PASS}@localhost:5432/dj_tucat" >> ${APPHOME}/tucat/.env 
 
-su -l postgres -c '/usr/lib/postgresql/9.4/bin/postgres -D /var/lib/postgresql/9.4/main -c config_file=/etc/postgresql/9.4/main/postgresql.conf' 
-# service postgresql start 
+# su -l postgres -c '/usr/lib/postgresql/9.4/bin/postgres -D /var/lib/postgresql/9.4/main -c config_file=/etc/postgresql/9.4/main/postgresql.conf' 
+service postgresql start 
 
 echo "create role admin superuser login;" > /init_postgresql.sql 
 echo "create user debian with superuser password '${PASS}';" >> /init_postgresql.sql 
@@ -24,7 +24,7 @@ echo "grant all privileges on database dj_tucat to garbellador; " >> /init_postg
 
 echo "Waiting to start progresql service"
 
-sleep 5
+# sleep 5
 
 su -l postgres -c 'psql < /init_postgresql.sql'
 
@@ -34,7 +34,7 @@ rm -f /init_postgresql.sql
 
 ulimit -n 1024
 mkdir -p /var/lib/rabbitmq/data
-chown -R rabbitmq:rabbitmq /var/lib/rabbitmq/data
+chown -R rabbitmq.rabbitmq /var/lib/rabbitmq/data
 mkdir -p /var/log/rabbitmq/
 
 cp /requirements.txt /home/antoinet/requirements.txt 

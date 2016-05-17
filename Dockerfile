@@ -19,12 +19,13 @@ RUN echo "Install base system" && \
     python python3-setuptools python3-dev virtualenv python-virtualenv python3-virtualenv python3-pip python-pip nginx gunicorn vim nano curl wget \
     postgresql postgresql-contrib libpq-dev python-software-properties software-properties-common postgresql-client postgresql-contrib apt-utils net-tools && \
     easy_install pip && \
-    pip install virtualenv && pip3 install virtualenv \
-    pip install virtualenvwrapper && pip3 install virtualenvwrapper \
-    pip install django && pip3 install django \
-    pip install boto && pip3 install boto \
+    pip install virtualenv && pip3 install virtualenv && \
+    pip install virtualenvwrapper && pip3 install virtualenvwrapper && \
+    pip install django && pip3 install django && \
+    pip install boto && pip3 install boto && \
     mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp && \
-    chown postgres.postgres /var/run/postgresql/9.4-main.pg_stat_tmp -R 
+    chown -R postgres.postgres /var/run/postgresql/9.4-main.pg_stat_tmp
+
 
 # Install MongoDB database 
 RUN echo "Install MongoDB database" && \
@@ -51,8 +52,8 @@ RUN echo "Install Tucat Application " && \
     mkdir -p ${APPHOME} && \
     cp -r /src/tucat/ ${APPHOME}/tucat && \
     mkdir -p /home/antoinet/src/tucat/log && \
-    echo "daemon off;" >> /etc/nginx/nginx.conf
-   
+    echo "daemon off;" >> /etc/nginx/nginx.conf 
+       
 # Supervisor configuration 
 RUN echo "Supervidor Configuration " && \
     mkdir -p /var/log/supervisor && \
