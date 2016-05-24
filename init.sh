@@ -41,10 +41,15 @@ cp /requirements.txt /home/antoinet/requirements.txt
 chown -R antoinet.antoinet /home/antoinet/requirements.txt 
 rm -f /requirements.txt
 
+DJANGO_SECRET_KEY=$(pwgen -s 12 1)
+echo "DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}" >> /root/.passwd 
+
 su -l antoinet -c '#!/bin/bash > /home/antoinet/init.sh'
 su -l antoinet -c 'echo "export WORKON_HOME=$HOME/.virtualenvs" >> /home/antoinet/init.sh' 
-su -l antoinet -c 'echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/antoinet/init.sh' 
+#su -l antoinet -c 'echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/antoinet/init.sh' 
+su -l antoinet -c 'echo "source /usr/share/virtualenvwrapper/virtualenvwrapper.sh" >> /home/antoinet/init.sh' 
 su -l antoinet -c 'echo "mkvirtualenv --python=/usr/bin/python3 -r /home/antoinet/requirements.txt tucat" >> /home/antoinet/init.sh' 
+su -l antoinet -c 'echo "source .virtualenvs/tucat/bin/activate; pip install boto; pip install django; pip install gunicorn; export DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}; mkdir -p /home/antoinet/log/" >> /home/antoinet/init.sh' 
 su -l antoinet -c 'chmod +x /home/antoinet/init.sh'
 su -l antoinet -c '/home/antoinet/init.sh'
 

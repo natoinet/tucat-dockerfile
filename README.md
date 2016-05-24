@@ -63,6 +63,29 @@ Removing all docker instances
 
 **Errors**
 
-- 2016-04-28 07:51:03,182 INFO spawnerr: can't find command '/home/antoinet/.virtualenvs/tucat/bin/gunicorn'
-- 2016-04-28 07:51:03,194 INFO spawnerr: can't find command '/home/antoinet/.virtualenvs/tucat/bin/python'
+file: /home/antoinet/src/tucat/log/celery_worker.log
+
+ raise ImproperlyConfigured(error_msg)
+django.core.exceptions.ImproperlyConfigured: Set the DJANGO_SECRET_KEY environment variable
+(tucat)antoinet@78e06701a362:~$ pip install django    
+
+file: /home/antoinet/src/tucat/log/celery_worker.log
+
+ File "/home/antoinet/.virtualenvs/tucat/lib/python3.4/site-packages/django/utils/log.py", line 71, in configure_logging
+    logging_config_func(logging_settings)
+  File "/usr/lib/python3.4/logging/config.py", line 789, in dictConfig
+    dictConfigClass(config).configure()
+  File "/usr/lib/python3.4/logging/config.py", line 565, in configure
+    '%r: %s' % (name, e))
+ValueError: Unable to configure handler 'file': [Errno 2] No such file or directory: '/home/antoinet/log/logging.log
+
+file: /home/antoinet/src/tucat/log/gunicorn.log
+
+  return self.load_wsgiapp()
+  File "/home/antoinet/.virtualenvs/tucat/lib/python3.4/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/home/antoinet/.virtualenvs/tucat/lib/python3.4/site-packages/gunicorn/util.py", line 357, in import_app
+    __import__(module)
+ImportError: No module named 'tucat
+
 

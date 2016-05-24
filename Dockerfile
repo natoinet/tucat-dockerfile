@@ -17,15 +17,13 @@ RUN echo "Install base system" && \
     apt-get update && \
     apt-get -y install supervisor git pwgen libssl-dev openssl openssh-server build-essential \
     python python3-setuptools python3-dev virtualenv python-virtualenv python3-virtualenv python3-pip python-pip nginx gunicorn vim nano curl wget \
-    postgresql postgresql-contrib libpq-dev python-software-properties software-properties-common postgresql-client postgresql-contrib apt-utils net-tools && \
-    easy_install pip && \
-    pip install virtualenv && pip3 install virtualenv && \
-    pip install virtualenvwrapper && pip3 install virtualenvwrapper && \
+    postgresql postgresql-contrib libpq-dev python-software-properties software-properties-common postgresql-client postgresql-contrib apt-utils net-tools \
+    python-dev python3-dev virtualenvwrapper dh-virtualenv devscripts git equivs && \
     pip install django && pip3 install django && \
     pip install boto && pip3 install boto && \
     mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp && \
-    chown -R postgres.postgres /var/run/postgresql/9.4-main.pg_stat_tmp
-
+    chown -R postgres.postgres /var/run/postgresql/9.4-main.pg_stat_tmp 
+    # easy_install pip python-dev python3-dev && \
 
 # Install MongoDB database 
 RUN echo "Install MongoDB database" && \
