@@ -65,27 +65,21 @@ Removing all docker instances
 
 file: /home/antoinet/src/tucat/log/celery_worker.log
 
- raise ImproperlyConfigured(error_msg)
-django.core.exceptions.ImproperlyConfigured: Set the DJANGO_SECRET_KEY environment variable
-(tucat)antoinet@78e06701a362:~$ pip install django    
+[2016-05-24 13:41:45,809: ERROR/MainProcess] consumer: Cannot connect to amqp://guest:**@127.0.0.1:5672//: [Errno 111] Connection refused.
+Trying again in 2.00 seconds...
 
-file: /home/antoinet/src/tucat/log/celery_worker.log
+[2016-05-24 13:41:47,827: ERROR/MainProcess] consumer: Cannot connect to amqp://guest:**@127.0.0.1:5672//: [Errno 111] Connection refused.
+Trying again in 4.00 seconds...
 
- File "/home/antoinet/.virtualenvs/tucat/lib/python3.4/site-packages/django/utils/log.py", line 71, in configure_logging
-    logging_config_func(logging_settings)
-  File "/usr/lib/python3.4/logging/config.py", line 789, in dictConfig
-    dictConfigClass(config).configure()
-  File "/usr/lib/python3.4/logging/config.py", line 565, in configure
-    '%r: %s' % (name, e))
-ValueError: Unable to configure handler 'file': [Errno 2] No such file or directory: '/home/antoinet/log/logging.log
+[2016-05-24 13:41:51,865: INFO/MainProcess] Connected to amqp://guest:**@127.0.0.1:5672//
+[2016-05-24 13:41:51,887: INFO/MainProcess] mingle: searching for neighbors
+[2016-05-24 13:41:52,906: INFO/MainProcess] mingle: all alone
+[2016-05-24 13:41:52,982: WARNING/MainProcess] celery@dd8315014a01 ready.
 
 file: /home/antoinet/src/tucat/log/gunicorn.log
 
-  return self.load_wsgiapp()
-  File "/home/antoinet/.virtualenvs/tucat/lib/python3.4/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
-    return util.import_app(self.app_uri)
-  File "/home/antoinet/.virtualenvs/tucat/lib/python3.4/site-packages/gunicorn/util.py", line 357, in import_app
-    __import__(module)
-ImportError: No module named 'tucat
+[2016-05-24 11:42:31 +0000] [866] [ERROR] Retrying in 1 second.
+[2016-05-24 11:42:32 +0000] [866] [ERROR] Can't connect to ('0.0.0.0', 8000)
+
 
 

@@ -8,9 +8,9 @@ PASS=$(pwgen -s 12 1)
 echo "root password:     ${ROOTPASS} " > /root/.passwd
 echo "postgres password: ${PASS} " >> /root/.passwd 
 
-echo "DEBUG=on " >> ${APPHOME}/tucat/.env 
-echo "DJANGO_SETTINGS_MODULE=config.settings.production" >> ${APPHOME}/tucat/.env
-echo "DATABASE_URL=postgres://garbellador:${PASS}@localhost:5432/dj_tucat" >> ${APPHOME}/tucat/.env 
+# echo "DEBUG=on " >> ${APPHOME}/tucat/.env 
+# echo "DJANGO_SETTINGS_MODULE=config.settings.production" >> ${APPHOME}/tucat/.env
+# echo "DATABASE_URL=postgres://garbellador:${PASS}@localhost:5432/dj_tucat" >> ${APPHOME}/tucat/.env 
 
 # su -l postgres -c '/usr/lib/postgresql/9.4/bin/postgres -D /var/lib/postgresql/9.4/main -c config_file=/etc/postgresql/9.4/main/postgresql.conf' 
 service postgresql start 
@@ -44,13 +44,20 @@ rm -f /requirements.txt
 DJANGO_SECRET_KEY=$(pwgen -s 12 1)
 echo "DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}" >> /root/.passwd 
 
-su -l antoinet -c '#!/bin/bash > /home/antoinet/init.sh'
-su -l antoinet -c 'echo "export WORKON_HOME=$HOME/.virtualenvs" >> /home/antoinet/init.sh' 
-#su -l antoinet -c 'echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/antoinet/init.sh' 
-su -l antoinet -c 'echo "source /usr/share/virtualenvwrapper/virtualenvwrapper.sh" >> /home/antoinet/init.sh' 
-su -l antoinet -c 'echo "mkvirtualenv --python=/usr/bin/python3 -r /home/antoinet/requirements.txt tucat" >> /home/antoinet/init.sh' 
-su -l antoinet -c 'echo "source .virtualenvs/tucat/bin/activate; pip install boto; pip install django; pip install gunicorn; export DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}; mkdir -p /home/antoinet/log/" >> /home/antoinet/init.sh' 
-su -l antoinet -c 'chmod +x /home/antoinet/init.sh'
+echo "DEBUG=on" > /home/antoinet/src/tucat/.env
+echo "DJANGO_SETTINGS_MODULE=config.settings.test" >> /home/antoinet/src/tucat/.env
+echo "DATABASE_URL=postgres://garbellador:${PASS}@localhost:5432/dj_tucat" >> /home/antoinet/src/tucat/.env
+echo "DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}" >> /home/antoinet/src/tucat/.env
+echo "SECRET_KEY=${DJANGO_SECRET_KEY}" >> /home/antoinet/src/tucat/.env
+
+echo '#!/bin/bash' > /home/antoinet/init.sh
+echo "export WORKON_HOME=/home/antoinet/.virtualenvs" >> /home/antoinet/init.sh
+echo "source /usr/share/virtualenvwrapper/virtualenvwrapper.sh" >> /home/antoinet/init.sh
+echo "mkvirtualenv --python=/usr/bin/python3 -r /home/antoinet/requirements.txt tucat" >> /home/antoinet/init.sh
+echo "source .virtualenvs/tucat/bin/activate; pip install boto; pip install django; pip install gunicorn; export DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}; mkdir -p /home/antoinet/log/" >> /home/antoinet/init.sh
+chown antoinet.antoinet /home/antoinet/init.sh
+chmod +x /home/antoinet/init.sh
+
 su -l antoinet -c '/home/antoinet/init.sh'
 
 service postgresql stop 
