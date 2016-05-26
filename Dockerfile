@@ -70,6 +70,10 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.4/main/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf
 
+# RABBIT ADMIN
+RUN wget -c https://raw.githubusercontent.com/rabbitmq/rabbitmq-management/rabbitmq_v3_6_1/bin/rabbitmqadmin && \
+    cp rabbitmqadmin /usr/local/bin && chmod +x /usr/local/bin/rabbitmqadmin
+    
 # VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
   
 ADD ./init.sh /init.sh 
@@ -84,5 +88,5 @@ RUN  chmod 755 /*.sh
 # 5432 postgresql 
 # 27017, 28017 mongodb 
 
-EXPOSE 22 80 8000 5432 27017 28017 5672 15672 
+EXPOSE 22 80 8000 5432 5672 27017 28017 5672 15672 
 ENTRYPOINT ["/run.sh"]

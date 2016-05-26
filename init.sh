@@ -5,8 +5,8 @@ echo 'root:${ROOTPASS}' | chpasswd
 
 PASS=$(pwgen -s 12 1)
 
-echo "root password:     ${ROOTPASS} " > /root/.passwd
-echo "postgres password: ${PASS} " >> /root/.passwd 
+echo "ROOT_PASSWORD=${ROOTPASS} " > /root/.passwd
+echo "PSQL_PASSWORD=${PASS} " >> /root/.passwd 
 
 # echo "DEBUG=on " >> ${APPHOME}/tucat/.env 
 # echo "DJANGO_SETTINGS_MODULE=config.settings.production" >> ${APPHOME}/tucat/.env
@@ -42,7 +42,7 @@ chown -R antoinet.antoinet /home/antoinet/requirements.txt
 rm -f /requirements.txt
 
 DJANGO_SECRET_KEY=$(pwgen -s 12 1)
-echo "DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}" >> /root/.passwd 
+echo "DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}" >> /root/.passwd 
 
 echo "DEBUG=on" > /home/antoinet/src/tucat/.env
 echo "DJANGO_SETTINGS_MODULE=config.settings.test" >> /home/antoinet/src/tucat/.env
@@ -61,6 +61,34 @@ chmod +x /home/antoinet/init.sh
 su -l antoinet -c '/home/antoinet/init.sh'
 
 service postgresql stop 
+
+/etc/init.d/rabbitmq-server start
+
+RBPASS=$(pwgen -s 12 1)
+echo "RABBIT_USER=admin" >> /root/.passwd 
+echo "RABBIT_PASSWORD=${RBPASS}" >> /root/.passwd 
+
+rabbitmq-plugins enable rabbitmq_management 
+rabbitmq-plugins enable rabbitmq_management_visualiser 
+
+#rabbitmqctl add_user admin ${RBPASS}
+#rabbitmqctl set_user_tags admin administrator
+#rabbitmqctl set_user_tags admin management
+#rabbitmqctl set_permissions -p / admin ".*" ".*" ".*" 
+
+rabbitmqctl add_user tucat ${RBPASS}
+rabbitmqctl set_user_tags tucat administrator
+rabbitmqctl set_user_tags tucat management
+rabbitmqctl set_permissions -p / tucat ".*" ".*" ".*" 
+
+rabbitmqctl add_vhost tucat.garbellador.com
+rabbitmqctl set_user_tags tucat tucat 
+
+rabbitmqadmin declare queue name=tucat durable=true 
+
+/etc/init.d/rabbitmq-server stop 
+
+sed -i "s#BROKER_URL.*#BROKER_URL = 'amqp://tucat:${RBPASS}@localhost:5672/'#g" /home/antoinet/src/tucat/config/settings/common.py 
 
 echo "=>"
 echo "=> Done!"
