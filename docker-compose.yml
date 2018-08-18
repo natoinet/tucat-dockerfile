@@ -58,7 +58,7 @@ services:
     volumes:
       - dbtucat_volume:/var/lib/postgresql/data
     env_file:
-      - hello/config/db/dbtucat_env
+      - config/db/dbtucat_env
     networks:
       - dbtucat_network
 
