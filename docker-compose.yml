@@ -1,0 +1,99 @@
+version: "3.7"
+services:
+
+  djangoapp:
+    build: .
+    volumes:
+        - ./natoinet/tucat:/opt/services/djangoapp/src
+        - ./log:/var/log/tucat
+    #volumes:
+    #  - ./hello:/opt/services/djangoapp/src
+    #  - static:/opt/services/djangoapp/static
+    #  - media:/opt/services/djangoapp/media
+    env_file:
+        .env
+    #environment:
+    #  - DJANGO_SETTINGS_MODULE    
+    depends_on:
+        - dbtucat
+        #- mongodb
+        #- rabbitmq-server
+    networks:
+        - nginx_network
+        - dbtucat_network
+        #- mongodb_network
+        #- rabbitmq_network
+
+  nginx:
+    image: nginx:latest
+    ports:
+        - 8000:80
+    volumes:
+        - ./natoinet/tucat/config/nginx:/etc/nginx/conf.d
+        - static:/opt/services/djangoapp/staticfiles
+        - media:/opt/services/djangoapp/media
+        #- ./hello/config/nginx/conf.d:/etc/nginx/conf.d
+        #- static:/opt/services/djangoapp/static
+        #- media:/opt/services/djangoapp/media
+    depends_on:
+        - djangoapp
+    networks:
+        - nginx_network
+
+  #postgresql:
+  #  image: postgres:latest
+  #  env_file:
+  #    - hello/config/db/postgresql_env
+  #  #env_file:
+  #  # .env    
+  #  # ports:
+  #  #- "5432:5432"
+  #  volumes:
+  #      - postgresql_volume:/var/lib/postgresql/data
+  #  networks:
+  #      - postgresql_network
+
+  dbtucat:
+    image: postgres:10
+    volumes:
+      - dbtucat_volume:/var/lib/postgresql/data
+    env_file:
+      - hello/config/db/dbtucat_env
+    networks:
+      - dbtucat_network
+
+#  mongodb:
+#	image: mongo:3.6.6-jessie
+#    env_file:
+#		.env
+#    ports:
+#    	- "27017:27017"
+#    networks:
+#    	- mongodb_network
+
+#  rabbitmq-server:
+#    image: rabbitmq:latest
+#    env_file:
+#		.env    
+#    volumes:
+#    	- "/home/docker/data:/data"
+#    deploy:
+#      placement:
+#        constraints: [node.role == manager]
+#    #command: redis-server --appendonly yes	
+#    ports:
+#    	- 15672:15672
+#    	- 5672:5672
+#    networks:
+#    	- rabbitmq_network
+
+networks:
+  dbtucat_network:
+    driver: bridge
+  nginx_network:
+    driver: bridge
+
+volumes:
+  dbtucat_volume:
+  static:
+  media:
