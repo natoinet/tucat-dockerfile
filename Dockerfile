@@ -25,6 +25,7 @@ RUN echo "Install Tucat Application " && \
 git clone https://github.com/natoinet/tucat ${APPHOME}
 #COPY ./natoinet/tucat ${APPHOME}
 COPY ./config/.env ${APPHOME}
+COPY ./config/docker.py ${APPHOME}/config/settings
 
 RUN cd ${APPHOME} && python manage.py collectstatic --no-input
 
