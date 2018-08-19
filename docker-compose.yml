@@ -11,7 +11,7 @@ services:
     #  - static:/opt/services/djangoapp/static
     #  - media:/opt/services/djangoapp/media
     env_file:
-        .env
+        config/.env
     #environment:
     #  - DJANGO_SETTINGS_MODULE    
     depends_on:

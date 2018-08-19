@@ -21,10 +21,10 @@ ADD ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 ## Install Tucat
-#RUN echo "Install Tucat Application " && \
-#    git clone https://github.com/natoinet/tucat ${APPHOME}/tucat
-COPY ./natoinet/tucat ${APPHOME}
-#COPY ./.env ${APPHOME}
+RUN echo "Install Tucat Application " && \
+git clone https://github.com/natoinet/tucat ${APPHOME}
+#COPY ./natoinet/tucat ${APPHOME}
+COPY ./config/.env ${APPHOME}
 
 RUN cd ${APPHOME} && python manage.py collectstatic --no-input
 
