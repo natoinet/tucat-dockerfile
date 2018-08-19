@@ -29,7 +29,7 @@ services:
     ports:
         - 8000:80
     volumes:
-        - ./natoinet/tucat/config/nginx:/etc/nginx/conf.d
+        - ./config/nginx:/etc/nginx/conf.d
         - static:/opt/services/djangoapp/staticfiles
         - media:/opt/services/djangoapp/media
         #- ./hello/config/nginx/conf.d:/etc/nginx/conf.d
