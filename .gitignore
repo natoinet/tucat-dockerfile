@@ -76,10 +76,14 @@ tucat/rabbitmq-signing-key-public.asc
 # Output
 tucat/output/
 
+#Docker
+docker-compose.override.yml
+
 # Hello app
 hello/
 
 # Others
 natoinet/
+tucat/
 init-old.sh
 oldDockerfile
