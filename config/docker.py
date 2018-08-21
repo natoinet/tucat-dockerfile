@@ -32,7 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'testserver',
-    'localhost'
+    'localhost',
+    'dotucat.nowchess.org'
 ]
 
 

@@ -27,7 +27,7 @@ services:
   nginx:
     image: nginx:latest
     ports:
-        - 8000:80
+        - 80:80
     volumes:
         - ./config/nginx:/etc/nginx/conf.d
         - static:/opt/services/djangoapp/staticfiles
