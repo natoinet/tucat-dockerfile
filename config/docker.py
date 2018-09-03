@@ -20,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 APPS_DIR = ROOT_DIR.path('tucat')
 
+env = environ.Env(DEBUG=(bool, False),)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -143,6 +144,7 @@ DATABASES = {
     },
 }
 
+MONGO_CLIENT = env('MONGOCLIENT')
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -190,3 +192,16 @@ MEDIA_ROOT = str(APPS_DIR('media'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
+
+# Celery settings
+#BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+BROKER_URL = 'amqp://guest:guest@rabbitmq:5672/'
+CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERYD_CONCURRENCY=1
+
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

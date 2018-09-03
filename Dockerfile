@@ -10,6 +10,15 @@ ENV PYTHONUNBUFFERED 1
 ENV APPHOME /opt/services/djangoapp/src
 ENV APPLOG /var/log/tucat
 
+#### Install RabbitMQ Queue Service 
+## RabbitMQ Signing key + Add the apt rep to the source list directory + install
+#RUN apt-get update 
+#RUN apt-get -y install apt-transport-https
+#RUN wget -O - 'https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc' | apt-key add - 
+#RUN echo 'deb https://dl.bintray.com/rabbitmq/debian stretch main' | tee /etc/apt/sources.list.d/bintray.rabbitmq.list
+#RUN apt-get update 
+#RUN apt-get -y install rabbitmq-server
+	
 #RUN /bin/bash -c "echo 'APPHOME ' ${APPHOME}"
 RUN mkdir -p ${APPHOME}
 #RUN mkdir -p ${APPLOG}
@@ -27,13 +36,23 @@ git clone https://github.com/natoinet/tucat ${APPHOME}
 COPY ./config/.env ${APPHOME}
 COPY ./config/docker.py ${APPHOME}/config/settings
 
+RUN echo "Supervidor Configuration " && \
+    mkdir -p /var/log/supervisor && \
+    mkdir -p /etc/supervisor && \
+    mkdir -p /etc/supervisor/conf.d
+	
+ADD supervisord/supervisord.conf /etc/supervisor/supervisord.conf
+ADD supervisord/conf.d/celerybeat.conf  /etc/supervisor/conf.d/celerybeat.conf
+ADD supervisord/conf.d/celeryd.conf     /etc/supervisor/conf.d/celeryd.conf
+ADD supervisord/conf.d/tucat.conf       /etc/supervisor/conf.d/tucat.conf
+
 RUN cd ${APPHOME} && python manage.py collectstatic --no-input
 
 # Expose the port
 EXPOSE 8000
 
 ## Default command to run when starting the container
-CMD ["gunicorn", "-c", "config/gunicorn/conf.py", "--chdir", "tucat", "--bind", ":8000", "--log-file", "/var/log/tucat/gunicorn.log", "tucat.wsgi:application"]
+#CMD ["gunicorn", "-c", "config/gunicorn/conf.py", "--chdir", "tucat", "--bind", ":8000", "--log-file", "/var/log/tucat/gunicorn.log", "tucat.wsgi:application"]
 #CMD ["gunicorn", "--bind", ":8000", "tucat.wsgi:application"]
 
 #FROM python:3.6

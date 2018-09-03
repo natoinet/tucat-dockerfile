@@ -3,55 +3,44 @@ services:
 
   djangoapp:
     build: .
+    #command: gunicorn -c config/gunicorn/conf.py --chdir=tucat --bind=0.0.0.0:8000 --log-file="/var/log/tucat/gunicorn.log" tucat.wsgi:application
+    command: supervisord
     volumes:
       # - ./tucat:/opt/services/djangoapp/src
-        - ./log:/var/log/tucat
+      - ./log:/var/log/tucat
+      - ./supervisord/conf.d:/etc/supervisor/conf.d
     #volumes:
     #  - ./hello:/opt/services/djangoapp/src
     #  - static:/opt/services/djangoapp/static
     #  - media:/opt/services/djangoapp/media
     env_file:
-        config/.env
+      config/.env
     #environment:
     #  - DJANGO_SETTINGS_MODULE    
     depends_on:
-        - dbtucat
-        #- mongodb
-        #- rabbitmq-server
+      - dbtucat
+      - mongodb
+      - rabbitmq
     networks:
-        - nginx_network
-        - dbtucat_network
-        #- mongodb_network
-        #- rabbitmq_network
+      - nginx_network
+      - dbtucat_network
+      - mongodb_network
+      - rabbitmq_network
 
-  nginx:
-    image: nginx:latest
-    ports:
-        - 80:80
-    volumes:
-        - ./config/nginx:/etc/nginx/conf.d
-        - static:/opt/services/djangoapp/staticfiles
-        - media:/opt/services/djangoapp/media
-        #- ./hello/config/nginx/conf.d:/etc/nginx/conf.d
-        #- static:/opt/services/djangoapp/static
-        #- media:/opt/services/djangoapp/media
-    depends_on:
-        - djangoapp
-    networks:
-        - nginx_network
-
-  #postgresql:
-  #  image: postgres:latest
+  #celery:
+  #  build: .
+  #  #command: celery worker -l info -A snakeeyes.blueprints.contact.tasks
   #  env_file:
-  #    - hello/config/db/postgresql_env
-  #  #env_file:
-  #  # .env    
-  #  # ports:
-  #  #- "5432:5432"
-  #  volumes:
-  #      - postgresql_volume:/var/lib/postgresql/data
+  #      config/.env
+  #  depends_on:
+  #      - dbtucat
+  #      - mongodb
+  #      - rabbitmq
   #  networks:
-  #      - postgresql_network
+  #      - nginx_network
+  #      - dbtucat_network
+  #      - mongodb_network
+  #      - rabbitmq_network
 
   dbtucat:
     image: postgres:10
@@ -62,38 +51,61 @@ services:
     networks:
       - dbtucat_network
 
-#  mongodb:
-#	image: mongo:3.6.6-jessie
-#    env_file:
-#		.env
-#    ports:
-#    	- "27017:27017"
-#    networks:
-#    	- mongodb_network
+  mongodb:
+    image: mongo:3.6.6-jessie
+    env_file:
+      .env
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_volume:/data/db
+    networks:
+      - mongodb_network
 
-#  rabbitmq-server:
-#    image: rabbitmq:latest
-#    env_file:
-#		.env    
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./config/nginx:/etc/nginx/conf.d
+      - static:/opt/services/djangoapp/staticfiles
+      - media:/opt/services/djangoapp/media
+      #- ./hello/config/nginx/conf.d:/etc/nginx/conf.d
+      #- static:/opt/services/djangoapp/static
+      #- media:/opt/services/djangoapp/media
+    depends_on:
+      - djangoapp
+    networks:
+      - nginx_network
+
+  rabbitmq:
+    image: rabbitmq:latest
+    env_file:
+      config/.env    
 #    volumes:
 #    	- "/home/docker/data:/data"
 #    deploy:
 #      placement:
 #        constraints: [node.role == manager]
 #    #command: redis-server --appendonly yes	
-#    ports:
-#    	- 15672:15672
-#    	- 5672:5672
-#    networks:
-#    	- rabbitmq_network
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - rabbitmq_network
 
 networks:
   dbtucat_network:
     driver: bridge
+  mongodb_network:
+    driver: bridge
   nginx_network:
+    driver: bridge
+  rabbitmq_network:
     driver: bridge
 
 volumes:
   dbtucat_volume:
+  mongodb_volume:
   static:
   media:
