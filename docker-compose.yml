@@ -81,7 +81,9 @@ services:
   rabbitmq:
     image: rabbitmq:latest
     env_file:
-      config/.env    
+      config/.env
+    volumes:
+      - rabbitmq_volume:/var/lib/rabbitmq/mnesia/
 #    volumes:
 #    	- "/home/docker/data:/data"
 #    deploy:
@@ -109,3 +111,4 @@ volumes:
   mongodb_volume:
   static:
   media:
+  rabbitmq_volume:

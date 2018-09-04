@@ -18,7 +18,14 @@ ENV APPLOG /var/log/tucat
 #RUN echo 'deb https://dl.bintray.com/rabbitmq/debian stretch main' | tee /etc/apt/sources.list.d/bintray.rabbitmq.list
 #RUN apt-get update 
 #RUN apt-get -y install rabbitmq-server
-	
+
+#### Install Mongodb Entreprise tools
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+RUN echo 'deb http://repo.mongodb.com/apt/debian stretch/mongodb-enterprise/4.0 main' | tee /etc/apt/sources.list.d/mongodb-enterprise.list
+#RUN deb http://repo.mongodb.com/apt/debian stretch/mongodb-enterprise/4.0 main
+RUN apt-get update
+RUN apt-get install -y mongodb-enterprise-shell mongodb-enterprise-tools
+
 #RUN /bin/bash -c "echo 'APPHOME ' ${APPHOME}"
 RUN mkdir -p ${APPHOME}
 #RUN mkdir -p ${APPLOG}
