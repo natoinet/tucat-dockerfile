@@ -1,11 +1,11 @@
 git+https://github.com/Supervisor/supervisor
 gunicorn
 psycopg2
-celery==3.1.26.post2
-Django==1.11.15
+celery
+Django
 django-allauth
 django-braces
-django-celery
+django-celery-results
 django-crispy-forms
 django-environ
 pymongo
