@@ -5,6 +5,7 @@ celery
 Django
 django-allauth
 django-braces
+django_celery_beat
 django-celery-results
 django-crispy-forms
 django-environ
