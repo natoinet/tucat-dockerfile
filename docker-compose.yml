@@ -52,7 +52,7 @@ services:
       - dbtucat_network
 
   mongodb:
-    image: mongo:latest-xenial
+    image: mongo:latest
     env_file:
       .env
     ports:
