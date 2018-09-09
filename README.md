@@ -1,26 +1,26 @@
-#tucat-dockerfile 
+# tucat-dockerfile 
 
 Docker for Tucat, a generic software for extracting data from APIs.
 First Draft for this dockerfile.
 
-###Tucat source code
+### Tucat source code
   [Tucat Source Code](https://github.com/natoinet/tucat) https://github.com/natoinet/tucat
   [Tucat-Dockerfile Source Code](https://github.com/natoinet/tucat-dockerfile) https://github.com/natoinet/tucat-dockerfile
 
-###Get the projects
+### Clone the repositories
 ```
   git clone https://github.com/natoinet/tucat-dockerfile
   cd tucat-dockerfile
   git clone https://github.com/natoinet/tucat
 ```
 
-###Setup your domain name
-####In config > docker.py
+### Setup your domain name
+#### In config > docker.py
 ```
   	ALLOWED_HOSTS = [ 'example.com' ]
 ```
 
-###Setup the .env file
+### Setup the .env file
 In tucat-dockerfile/tucat/.env, create .env file, for example with the following default values:
 ```
    DJANGO_SETTINGS_MODULE=config.settings.docker
@@ -37,12 +37,12 @@ In tucat-dockerfile/tucat/.env, create .env file, for example with the following
    POSTGRES_DB=dbtucat
 ```
 
-####In config > nginx > local.conf
+#### In config > nginx > local.conf
 ```
 	server_name example.com;
 ```
 
-###Build the image
+### Build the image
 ```
   cd tucat-dockerfile
   sudo docker-compose build 
@@ -56,7 +56,7 @@ In tucat-dockerfile/tucat/.env, create .env file, for example with the following
   sudo docker-compose run --rm djangoapp /bin/bash -c './manage.py migrate'
 ```
 
-###Setup RabbitMQ container access
+### Setup RabbitMQ container access
 ```
    sudo docker exec -it tucat-dockerfile_rabbitmq_1 bash
    # rabbitmqctl add_vhost /
@@ -71,7 +71,7 @@ In tucat-dockerfile/tucat/.env, create .env file, for example with the following
 ```
 
 
-###Other notes
+### Other notes
 
 Connect to Django container
 ```
