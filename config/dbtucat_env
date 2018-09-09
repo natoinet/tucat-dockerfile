@@ -1,3 +1,0 @@
-POSTGRES_USER=dbtucat_role
-POSTGRES_PASSWORD=dbtucat_password
-POSTGRES_DB=dbtucat
