@@ -20,6 +20,23 @@ First Draft for this dockerfile.
   	ALLOWED_HOSTS = [ 'example.com' ]
 ```
 
+###Setup the .env file
+In tucat-dockerfile/tucat/.env, create .env file, for example with the following default values:
+```
+   DJANGO_SETTINGS_MODULE=config.settings.docker
+   APPHOME=/opt/services/djangoapp
+   APPLOG=/var/log/tucat
+   MONGOCLIENT=mongodb://mongodb:27017
+   RABBITMQ_DEFAULT_USER=guest
+   RABBITMQ_DEFAULT_PASS=guest
+   RABBITMQ_DEFAULT_VHOST=rabbitmq
+   C_FORCE_ROOT=true
+   MONGOHOST=mongodb
+   POSTGRES_USER=dbtucat_role
+   POSTGRES_PASSWORD=dbtucat_password
+   POSTGRES_DB=dbtucat
+```
+
 ####In config > nginx > local.conf
 ```
 	server_name example.com;
@@ -31,7 +48,7 @@ First Draft for this dockerfile.
   sudo docker-compose build 
 ```
 
-### Setup
+### Setup 
 
 ```
   sudo docker-compose run --rm djangoapp /bin/bash -c './manage.py createsuperuser'
