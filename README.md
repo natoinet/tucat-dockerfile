@@ -5,7 +5,14 @@ First Draft for this dockerfile.
 
 ###Tucat source code
   [Tucat Source Code](https://github.com/natoinet/tucat) https://github.com/natoinet/tucat
+  [Tucat-Dockerfile Source Code](https://github.com/natoinet/tucat-dockerfile) https://github.com/natoinet/tucat-dockerfile
 
+###Get the projects
+```
+  git clone https://github.com/natoinet/tucat-dockerfile
+  cd tucat-dockerfile
+  git clone https://github.com/natoinet/tucat
+```
 
 ###Setup your domain name
 ####In config > docker.py
