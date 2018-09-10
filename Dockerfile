@@ -32,6 +32,8 @@ RUN echo "Install Tucat Application " && \
 
 COPY ./config/.env ${APPHOME}
 
+RUN echo "Output folder" && mkdir -p ${APPHOME}/tucat/tucat/output
+
 RUN echo "Supervidor Configuration " && \
     mkdir -p /var/log/supervisor && \
     mkdir -p /etc/supervisor && \
