@@ -12,17 +12,12 @@ First Draft for this dockerfile.
   git clone https://github.com/natoinet/tucat-dockerfile
   cd tucat-dockerfile
   git clone https://github.com/natoinet/tucat
-  mkdir tucat-dockerfile/tucat/tucat/output
+  mkdir tucat/tucat/output
 ```
 
-### Setup your domain name
-#### In config > docker.py
-```
-  	ALLOWED_HOSTS = [ 'example.com' ]
-```
-
-### Setup the .env file
-In tucat-dockerfile/tucat/.env, create .env file, for example with the following default values:
+### Setup
+#### Setup the .env file
+In tucat-dockerfile/tucat/, create .env file, for example with the following default values:
 ```
    DJANGO_SETTINGS_MODULE=config.settings.docker
    APPHOME=/opt/services/djangoapp
@@ -38,14 +33,19 @@ In tucat-dockerfile/tucat/.env, create .env file, for example with the following
    POSTGRES_DB=dbtucat
 ```
 
-#### In config > nginx > local.conf
+#### Setup your domain
+In tucat > config > settings > docker.py
+```
+  	ALLOWED_HOSTS = [ 'example.com' ]
+```
+
+In config > nginx > local.conf
 ```
 	server_name example.com;
 ```
 
 ### Build the image
 ```
-  cd tucat-dockerfile
   sudo docker-compose build 
 ```
 

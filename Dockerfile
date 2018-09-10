@@ -30,7 +30,7 @@ RUN echo "Install Tucat Application " && \
 	git clone https://github.com/natoinet/tucat ${APPHOME} && \
 	git checkout sustainable
 
-COPY ./config/.env ${APPHOME}
+COPY ./tucat/.env ${APPHOME}
 
 RUN echo "Output folder" && mkdir -p ${APPHOME}/tucat/tucat/output
 
