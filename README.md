@@ -12,6 +12,7 @@ First Draft for this dockerfile.
   git clone https://github.com/natoinet/tucat-dockerfile
   cd tucat-dockerfile
   git clone https://github.com/natoinet/tucat
+  mkdir tucat-dockerfile/tucat/tucat/output
 ```
 
 ### Setup your domain name
