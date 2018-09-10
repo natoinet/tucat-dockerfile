@@ -8,7 +8,7 @@ services:
       - ./log:/var/log/tucat
       - ./supervisord/conf.d:/etc/supervisor/conf.d
     env_file:
-      config/.env
+      tucat/.env
     depends_on:
       - dbtucat
       - mongodb
@@ -39,14 +39,14 @@ services:
     volumes:
       - dbtucat_volume:/var/lib/postgresql/data
     env_file:
-      - config/.env
+      - tucat/.env
     networks:
       - dbtucat_network
 
   mongodb:
     image: mongo:latest
     env_file:
-      config/.env
+      tucat/.env
     ports:
       - 27017:27017
     volumes:
@@ -70,7 +70,7 @@ services:
   rabbitmq:
     image: rabbitmq:latest
     env_file:
-      config/.env
+      tucat/.env
     volumes:
       - rabbitmq_volume:/var/lib/rabbitmq/mnesia/
     ports:
