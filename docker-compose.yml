@@ -19,6 +19,9 @@ services:
       - dbtucat_network
       - mongodb_network
       - rabbitmq_network
+    secrets:
+      - postgres_password
+
 
   #celery:
   #  build: .
@@ -43,6 +46,8 @@ services:
       - tucat/.env
     networks:
       - dbtucat_network
+    secrets:
+      - postgres_password
 
   mongodb:
     image: mongo:latest
@@ -118,3 +123,7 @@ volumes:
   static:
   media:
   rabbitmq_volume:
+
+secrets:
+  postgres_password:
+    file: config/secrets/postgres_password
