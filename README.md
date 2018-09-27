@@ -1,4 +1,4 @@
-# tucat-dockerfile 
+# tucat-dockerfile
 
 Docker for Tucat, a generic software for extracting data from APIs.
 First Draft for this dockerfile.
@@ -22,7 +22,7 @@ In tucat-dockerfile/tucat/, create .env file, for example with the following def
    DJANGO_SETTINGS_MODULE=config.settings.docker
    APPHOME=/opt/services/djangoapp
    APPLOG=/var/log/tucat
-   MONGOCLIENT=mongodb://mongodb:27017
+   #MONGOCLIENT=mongodb://mongodb:27017
    RABBITMQ_DEFAULT_USER=guest
    RABBITMQ_DEFAULT_PASS=guest
    RABBITMQ_DEFAULT_VHOST=rabbitmq
@@ -46,10 +46,10 @@ In config > nginx > local.conf
 
 ### Build the image
 ```
-  sudo docker-compose build 
+  sudo docker-compose build
 ```
 
-### Setup 
+### Setup
 
 ```
   sudo docker-compose run --rm djangoapp /bin/bash -c './manage.py createsuperuser'

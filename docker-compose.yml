@@ -2,17 +2,17 @@ version: "3.7"
 services:
 
   djangoapp:
+    depends_on:
+      - dbtucat
+      - mongodb
+      - rabbitmq
+    env_file:
+      tucat/.env
     build: .
     command: supervisord
     volumes:
       - ./log:/var/log/tucat
       - ./supervisord/conf.d:/etc/supervisor/conf.d
-    env_file:
-      tucat/.env
-    depends_on:
-      - dbtucat
-      - mongodb
-      - rabbitmq
     networks:
       #- nginx_network
       - httpsportal_network
@@ -37,10 +37,10 @@ services:
 
   dbtucat:
     image: postgres:latest
-    volumes:
-      - dbtucat_volume:/var/lib/postgresql/data
     env_file:
       - tucat/.env
+    volumes:
+      - dbtucat_volume:/var/lib/postgresql/data
     networks:
       - dbtucat_network
 
@@ -55,21 +55,10 @@ services:
     networks:
       - mongodb_network
 
-  #nginx:
-  #  image: nginx:latest
-  #  ports:
-  #    - 80:80
-  #  volumes:
-  #    - ./config/nginx:/etc/nginx/conf.d
-  #    - static:/opt/services/djangoapp/staticfiles
-  #    - media:/opt/services/djangoapp/media
-  #  depends_on:
-  #    - djangoapp
-  #  networks:
-  #    - nginx_network
-
   https-portal:
     image: steveltn/https-portal:1
+    env_file:
+      tucat/.env
     ports:
       - '80:80'
       - '443:443'
@@ -79,12 +68,6 @@ services:
     links:
       - djangoapp
     restart: always
-    env_file:
-      tucat/.env
-    # environment:
-      # DOMAINS: 'dotucat.nowchess.org -> http://djangoapp:8000'
-      # STAGE: 'production'
-      #     # FORCE_RENEW: 'true'
     networks:
       - httpsportal_network
 
@@ -92,11 +75,11 @@ services:
     image: rabbitmq:latest
     env_file:
       tucat/.env
-    volumes:
-      - rabbitmq_volume:/var/lib/rabbitmq/mnesia/
     ports:
       - 15672:15672
       - 5672:5672
+    volumes:
+      - rabbitmq_volume:/var/lib/rabbitmq/mnesia/
     networks:
       - rabbitmq_network
 
@@ -105,8 +88,6 @@ networks:
     driver: bridge
   mongodb_network:
     driver: bridge
-  #nginx_network:
-  #  driver: bridge
   httpsportal_network:
     driver: bridge
   rabbitmq_network:

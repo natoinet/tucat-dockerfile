@@ -1,6 +1,6 @@
 ## Tucat source code https://github.com/natoinet/tucat
 ## Tucat application Dockerfile - https://github.com/natoinet/tucat-dockerfile
-## docker-compose build 
+## docker-compose build
 
 FROM python:latest
 LABEL authors="Antoine Brunel <antoine.brunel@gmail.com> & Victor Esteban <victor@limogin.com>"
@@ -27,7 +27,7 @@ RUN pip install -r /requirements.txt
 
 ## Install Tucat
 RUN echo "Install Tucat Application " && \
-	git clone https://github.com/natoinet/tucat ${APPHOME} && \
+	git clone https://github.com/natoinet/tucat ${APPHOME} #&& \
 	git checkout sustainable
 
 COPY ./tucat/.env ${APPHOME}
@@ -38,7 +38,7 @@ RUN echo "Supervidor Configuration " && \
     mkdir -p /var/log/supervisor && \
     mkdir -p /etc/supervisor && \
     mkdir -p /etc/supervisor/conf.d
-	
+
 ADD supervisord/supervisord.conf /etc/supervisor/supervisord.conf
 ADD supervisord/conf.d/celerybeat.conf  /etc/supervisor/conf.d/celerybeat.conf
 ADD supervisord/conf.d/celeryd.conf     /etc/supervisor/conf.d/celeryd.conf
